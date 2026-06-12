@@ -65,9 +65,9 @@
     #===============================
     # Deploy Nginx configuration
     #===============================
-    - name: Copy Niginx configuration file
+    - name: Copy Nginx configuration file
       copy:
-        src: nginx.conf
+        src: app/nginx.conf  # Update this path to where the file actually is
         dest: /etc/nginx/sites-available/default
 
     - name: Enable site (symlink)
