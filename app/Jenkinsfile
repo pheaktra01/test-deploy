@@ -33,7 +33,7 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm \
-                -v $PWD/app:/app \
+                -v "/var/lib/jenkins/workspace/Test Deployment/app:/app" \
                 -w /app \
                 node:20-alpine \
                 sh -c "npm install && npm run build"
