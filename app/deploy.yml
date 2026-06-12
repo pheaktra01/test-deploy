@@ -58,10 +58,8 @@
 
     - name: Run Docker Compose
       shell: |
-        docker-compose -f down || true
-        docker-compose -f up -d --build
-      args:
-        chdir: /home/yagami/react-app/
+        docker-compose -f /home/yagami/react-app/app/docker-compose.yml down || true
+        docker-compose -f /home/yagami/react-app/app/docker-compose.yml up -d --build
 
     #===============================
     # Deploy Nginx configuration
