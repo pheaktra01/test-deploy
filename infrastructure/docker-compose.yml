@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  react-app:
+    build:
+      context: ../app/
+      dockerfile: Dockerfile
+    container_name: react-app
+    ports:
+      - "3000:80"
+    restart: unless-stopped
