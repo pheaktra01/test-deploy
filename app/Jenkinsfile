@@ -31,9 +31,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                dir('app') {
-                    sh 'npm run build'
-                }
+                sh '''
+                docker run --rm \
+                -v $PWD/app:/app \
+                -w /app \
+                node:20-alpine \
+                sh -c "npm install && npm run build"
+                '''
             }
         }
 
