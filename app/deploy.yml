@@ -8,34 +8,79 @@
       apt:
         update_cache: yes
 
-    - name: Install required packages
+    #===============================
+    # Install dependencies
+    #===============================
+    - name: Install Docker, Nginx, and required packages
       apt:
         name:
           - docker.io
           - docker-compose
           - git
+          - nginx
         state: present
 
-    - name: Start Docker service
-      servive:
+    #===============================
+    # Enable and start services
+    #===============================
+    - name: Start docker service
+      service:
         name: docker
         state: started
         enabled: yes
 
+    - name: Start nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    #===============================
+    # Add user to docker group
+    #===============================
     - name: Add yagami to docker group
       user: 
         name: yagami
         groups: docker
         append: yes
 
+    #===============================
+    # Deploy react app
+    #===============================
     - name: Copy project file to server
       copy:
         src: ./
         dest:: /home/yagami/react-app/
-        mode: 0755
 
     - name: Run Docker Compose build & up
       shell: |
-        cd /home/yagami/react-app/
+        cd /home/yagami/react-app/infrastructure/
         docker compose down || true
         docker-compose up -d --build
+
+    #===============================
+    # Deploy Nginx configuration
+    #===============================
+    - name: Copy Niginx configuration file
+      copy:
+        src: nginx.conf
+        dest: /etc/nginx/sites-available/default
+
+    - name: Enable site (symlink)
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+        force: yes
+
+    # ================================
+    # 5. Validate and restart Nginx
+    # ================================
+    - name: test Nginx configuration
+      shell: nginx -t
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+
