@@ -9,7 +9,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://your-repo-url.git'
+                git branch: 'main', url: 'https://github.com/pheaktra01/test-deploy.git'
             }
         }
 
