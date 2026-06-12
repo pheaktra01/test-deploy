@@ -1,7 +1,7 @@
 ---
 - name: Deploy React App Using Docker Compose
   hosts: webservers
-  become:: true
+  become: true
 
   tasks:
     - name: Update apt package
@@ -50,13 +50,13 @@
     - name: Copy project file to server
       copy:
         src: ./
-        dest:: /home/yagami/react-app/
+        dest: /home/yagami/react-app/
 
     - name: Run Docker Compose build & up
       shell: |
         cd /home/yagami/react-app/infrastructure/
         docker compose down || true
-        docker-compose up -d --build
+        docker compose up -d --build
 
     #===============================
     # Deploy Nginx configuration
