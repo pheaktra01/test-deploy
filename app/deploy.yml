@@ -48,15 +48,19 @@
     # Deploy react app
     #===============================
     - name: Copy project file to server
-      copy:
-        src: ./
+      synchronize:
+        src: .
         dest: /home/yagami/react-app/
+        rsync_opts:
+          - "--exclude=node_modules"
+          - "--exclude=.git"
 
-    - name: Run Docker Compose build & up
+    - name: Run Docker Compose
       shell: |
-        cd /home/yagami/react-app/infrastructure/
-        docker compose down || true
-        docker compose up -d --build
+        docker-compose down || true
+        docker-compose up -d --build
+      args:
+        chdir: /home/yagami/react-app/infrastructure/
 
     #===============================
     # Deploy Nginx configuration
