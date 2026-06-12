@@ -60,14 +60,14 @@
         docker-compose down || true
         docker-compose up -d --build
       args:
-        chdir: /home/yagami/react-app/infrastructure/
+        chdir: /home/yagami/react-app/
 
     #===============================
     # Deploy Nginx configuration
     #===============================
     - name: Copy Nginx configuration file
       copy:
-        src: app/nginx.conf  # Update this path to where the file actually is
+        src: nginx.conf
         dest: /etc/nginx/sites-available/default
 
     - name: Enable site (symlink)
