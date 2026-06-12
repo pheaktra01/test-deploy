@@ -47,18 +47,19 @@
     #===============================
     # Deploy react app
     #===============================
-    - name: Copy project file to server
+    - name: Copy project files to server
       synchronize:
-        src: .
+        src: ../
         dest: /home/yagami/react-app/
+        recursive: yes
         rsync_opts:
           - "--exclude=node_modules"
           - "--exclude=.git"
 
     - name: Run Docker Compose
       shell: |
-        docker-compose down || true
-        docker-compose up -d --build
+        docker-compose -f infrastructure/docker-compose.yml down || true
+        docker-compose -f infrastructure/docker-compose.yml up -d --build
       args:
         chdir: /home/yagami/react-app/
 
