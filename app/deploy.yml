@@ -58,8 +58,8 @@
 
     - name: Run Docker Compose
       shell: |
-        docker-compose -f infrastructure/docker-compose.yml down || true
-        docker-compose -f infrastructure/docker-compose.yml up -d --build
+        docker-compose -f down || true
+        docker-compose -f up -d --build
       args:
         chdir: /home/yagami/react-app/
 
